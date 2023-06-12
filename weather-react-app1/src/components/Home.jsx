@@ -27,12 +27,12 @@ function Home() {
     }
   
     const getWeather = async (location) => {
+        console.log("Location",location)
       setWeatherData([])
-      let how_to_search = (typeof location === 'string') ? `q=${location}` : `lat=${location[0]}&lon=${location[1]}`
+      let how_to_search = (typeof location === 'string') ? `q=${encodeURIComponent(location)}` : `lat=${location[0]}&lon=${String(location[1]).trim()}`
   
       try {
-        let res = await fetch(`${"https://api.openweathermap.org/data/2.5/forecast?" + how_to_search}
-        &appid=${API_KEY}&units=metric&cnt=5&exclude=hourly,minutely`)
+        let res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?${how_to_search}&appid=${API_KEY}&units=metric&cnt=5&exclude=hourly,minutely`)
         let data = await res.json()
         console.log(res)
         if (data.cod != 200) {
